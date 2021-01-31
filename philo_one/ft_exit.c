@@ -1,15 +1,17 @@
 
 #include "philo_one.h" 
 
-void    ft_exit(t_philosoph *philosoph)
+void    *ft_exit()
 {
     int i;
 
     i = -1;
-    while (++i < philosoph[0].philo.num_of_phil)
+    pthread_mutex_lock(&g_all.mutex_life);
+    while (++i < g_all.super_phil[0].philo.num_of_phil)
 	{
-        pthread_mutex_destroy(&philosoph[i].mutex_left);
+        pthread_mutex_destroy(&g_all.super_phil[i].mutex_left);
     }
-    if (philosoph)
-        free(philosoph);
+    if (g_all.super_phil)
+       free(g_all.super_phil);
+    exit(0);
 }

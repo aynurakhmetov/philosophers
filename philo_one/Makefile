@@ -1,4 +1,4 @@
-FILES_C = main.c ft_lib.c
+FILES_C = main.c ft_lib.c ft_ph_life.c ft_exit.c
 GCC = gcc -Wall -Wextra -Werror
 
 all:
