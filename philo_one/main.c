@@ -3,33 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmarva <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:57:16 by gmarva            #+#    #+#             */
-/*   Updated: 2021/01/27 12:57:17 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/02/24 22:45:19 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-pthread_mutex_t mutex_point = PTHREAD_MUTEX_INITIALIZER;
-
-static void	ft_start_procces(t_philosoph *philosoph)
+static void		ft_start_procces(t_philosoph *philosoph)
 {
-	int			i;
-	struct		timeval tv;
-	long		tm_start;
-
+	int				i;
+	struct timeval	tv;
+	long			tm_start;
 
 	i = -1;
+	g_all.each_ph_eat = 0;
 	pthread_mutex_init(&g_all.mutex_life, NULL);
 	pthread_mutex_lock(&g_all.mutex_life);
 	g_all.super_phil = philosoph;
-	//printf("Num of philo = %d\n", philosoph[0].philo.num_of_phil);
 	gettimeofday(&tv, NULL);
 	tm_start = tv.tv_sec * 1000 + tv.tv_usec / 1000;
-	//pthread_create(&g_all.ms_die, NULL, ft_exit, NULL);
-	//printf("2Hello %s %ld\n", philosoph[2].entry_point->__opaque, philosoph[i].entry_point->__sig);
+	pthread_create(&g_all.ms_die, NULL, ft_exit, NULL);
+	printf("NUM %d\n", philosoph[0].philo.num_of_phil);
 	while (++i < philosoph[0].philo.num_of_phil)
 	{
 		philosoph[i].tm_start = tm_start;
@@ -42,17 +39,17 @@ static void	ft_start_procces(t_philosoph *philosoph)
 	ft_exit();
 }
 
-t_philosoph	*ft_philo_create(t_philo	philo)
+t_philosoph		*ft_philo_create(t_philo philo)
 {
 	t_philosoph		*philosoph;
 	int				i;
 
 	i = -1;
-	philosoph = (t_philosoph *)malloc(sizeof(t_philosoph) * (philo.num_of_phil + 1));
+	philosoph = (t_philosoph *)malloc(sizeof(t_philosoph)
+			* (philo.num_of_phil + 1));
 	while (++i < philo.num_of_phil)
 	{
 		philosoph[i].philo = philo;
-		//printf("Hello %s %ld %d\n", philosoph[i].entry_point->__opaque, philosoph[i].entry_point->__sig, k);
 		philosoph[i].num = i + 1;
 		pthread_mutex_init(&philosoph[i].mutex_left, NULL);
 		if (i == philo.num_of_phil - 1)
@@ -60,39 +57,50 @@ t_philosoph	*ft_philo_create(t_philo	philo)
 		else
 			philosoph[i].mutex_right = &philosoph[i + 1].mutex_left;
 	}
-	//printf("Hello %s %ld\n", mutex_entry_point.__opaque, mutex_entry_point.__sig);
 	return (philosoph);
 }
 
-static void	ft_philo_start(int argc, char *argv[])
+static void		ft_philo_start(int argc, char *argv[])
 {
 	t_philo		philo;
 	t_philosoph	*philosoph;
-	
+
 	philo.num_of_phil = ft_atoi(argv[1]);
+	if (philo.num_of_phil <= 1)
+	{
+		printf("Error: %d philosophers\n", philo.num_of_phil);
+		exit(0);
+	}
 	philo.time_die = ft_atoi(argv[2]);
 	philo.time_eat = ft_atoi(argv[3]);
 	philo.time_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
+	{
 		philo.num_of_time = ft_atoi(argv[5]);
+		if (philo.num_of_time == 0 || philo.num_of_time == -1)
+		{
+			printf("Error: 5th argument must be more than 0\n");
+			exit(0);
+		}
+	}
 	else
 		philo.num_of_time = -1;
 	philosoph = ft_philo_create(philo);
 	ft_start_procces(philosoph);
 }
 
-static int	ft_check_arguments(int argc, char *argv[])
+static int		ft_check_arguments(int argc, char *argv[])
 {
 	int	i;
 	int	j;
-	int k;
-	
+	int	k;
+
 	i = 0;
 	k = 0;
 	if (argc < 5 || argc > 6)
 	{
 		printf("Problems with numbers of arguments\n");
-		exit (0);
+		exit(0);
 	}
 	while (++i < argc)
 	{
@@ -109,10 +117,20 @@ static int	ft_check_arguments(int argc, char *argv[])
 	return (k);
 }
 
-int			main(int argc, char *argv[])
+int				main(int argc, char *argv[])
 {
 	int	k;
+	int i;
 
+	i = 0;
+	while (++i < argc)
+	{
+		if (argv[i][0] == '\0')
+		{
+			printf("Invalid argument number %d\n", i);
+			exit(0);
+		}
+	}
 	k = ft_check_arguments(argc, argv);
 	if (k > 0)
 	{
@@ -125,3 +143,8 @@ int			main(int argc, char *argv[])
 		ft_philo_start(argc, argv);
 	return (0);
 }
+
+
+// Мьютекс на печать
+// В Эксит добавить джойны и фри всего
+// В парсере проверить пустоту
