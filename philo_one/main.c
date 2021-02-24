@@ -28,7 +28,7 @@ static void	ft_start_procces(t_philosoph *philosoph)
 	//printf("Num of philo = %d\n", philosoph[0].philo.num_of_phil);
 	gettimeofday(&tv, NULL);
 	tm_start = tv.tv_sec * 1000 + tv.tv_usec / 1000;
-	pthread_create(&g_all.ms_die, NULL, ft_exit, NULL);
+	//pthread_create(&g_all.ms_die, NULL, ft_exit, NULL);
 	//printf("2Hello %s %ld\n", philosoph[2].entry_point->__opaque, philosoph[i].entry_point->__sig);
 	while (++i < philosoph[0].philo.num_of_phil)
 	{
