@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:57:16 by gmarva            #+#    #+#             */
-/*   Updated: 2021/02/24 22:45:19 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/02/25 19:28:04 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void		ft_start_procces(t_philosoph *philosoph)
 	i = -1;
 	g_all.each_ph_eat = 0;
 	pthread_mutex_init(&g_all.mutex_life, NULL);
+	pthread_mutex_init(&g_all.mutex_print, NULL);
 	pthread_mutex_lock(&g_all.mutex_life);
 	g_all.super_phil = philosoph;
 	gettimeofday(&tv, NULL);
@@ -143,8 +144,3 @@ int				main(int argc, char *argv[])
 		ft_philo_start(argc, argv);
 	return (0);
 }
-
-
-// Мьютекс на печать
-// В Эксит добавить джойны и фри всего
-// В парсере проверить пустоту

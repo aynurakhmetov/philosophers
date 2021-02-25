@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:13:00 by gmarva            #+#    #+#             */
-/*   Updated: 2021/02/24 19:26:46 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/02/25 19:19:12 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,17 @@ static long	ft_philo_try_takes_forks(pthread_mutex_t *fork_one,
 	pthread_mutex_lock(fork_one);
 	gettimeofday(&tv, NULL);
 	tm = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	pthread_mutex_lock(&g_all.mutex_print);
 	printf("%ld %d has taken a fork\n",
 			tm - one_phil->tm_start, one_phil->num);
+	pthread_mutex_unlock(&g_all.mutex_print);
 	pthread_mutex_lock(fork_two);
 	gettimeofday(&tv, NULL);
 	tm = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	pthread_mutex_lock(&g_all.mutex_print);
 	printf("%ld %d has taken a fork\n",
 			tm - one_phil->tm_start, one_phil->num);
+	pthread_mutex_unlock(&g_all.mutex_print);
 	return (tm);
 }
 
@@ -56,7 +60,9 @@ int			ft_philo_eat(t_philosoph *one_phil)
 	gettimeofday(&tv, NULL);
 	tm = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	one_phil->eat_start = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	pthread_mutex_lock(&g_all.mutex_print);
 	printf("%ld %d is eating\n", tm - one_phil->tm_start, one_phil->num);
+	pthread_mutex_unlock(&g_all.mutex_print);
 	if (one_phil->num != one_phil->philo.num_of_phil)
 	{
 		pthread_mutex_unlock(one_phil->mutex_right);

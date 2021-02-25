@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:05:41 by gmarva            #+#    #+#             */
-/*   Updated: 2021/02/24 19:12:07 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/02/25 20:58:54 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,26 @@ void	ft_philo_sleep_think(t_philosoph *one_phil)
 			+ one_phil->philo.time_sleep);
 	gettimeofday(&tv, NULL);
 	tm_sl = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	pthread_mutex_lock(&g_all.mutex_print);
 	printf("%ld %d is sleeping\n",
 			tm_sl - one_phil->tm_start, one_phil->num);
+	pthread_mutex_unlock(&g_all.mutex_print);
 	gettimeofday(&tv, NULL);
 	tm_th = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	pthread_mutex_lock(&g_all.mutex_print);
 	printf("%ld %d is thinking\n",
 			tm_th - one_phil->tm_start, one_phil->num);
+	pthread_mutex_unlock(&g_all.mutex_print);
 }
 
 void	*ft_philo_life(void *philosoph)
 {
 	t_philosoph		*one_phil;
 	int				res_eat;
-	pthread_t		die;
 
 	res_eat = 0;
 	one_phil = (t_philosoph *)philosoph;
-	pthread_create(&die, NULL, ft_philo_die, one_phil);
+	pthread_create(&one_phil->die, NULL, ft_philo_die, one_phil);
 	g_all.i = 1;
 	while (g_all.i == 1)
 	{
@@ -64,12 +67,14 @@ void	*ft_philo_life(void *philosoph)
 			g_all.each_ph_eat++;
 			if (g_all.each_ph_eat == one_phil->philo.num_of_phil)
 			{
+				g_all.i = 0;
+				pthread_mutex_lock(&g_all.mutex_print);
 				pthread_mutex_unlock(&g_all.mutex_life);
 				break ;
 			}
 		}
 		ft_philo_sleep_think(one_phil);
 	}
-	pthread_join(die, NULL);
+	pthread_join(one_phil->die, NULL);
 	return (0);
 }

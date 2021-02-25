@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 18:48:58 by gmarva            #+#    #+#             */
-/*   Updated: 2021/02/24 18:49:57 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/02/25 20:59:20 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	s_philosoph
 {
 	t_philo			philo;
 	pthread_t		ph;
+	pthread_t		die;
 	pthread_mutex_t	mutex_left;
 	pthread_mutex_t	*mutex_right;
 	int				num;
@@ -41,6 +42,7 @@ typedef struct	s_global
 {
 	pthread_t		ms_die;
 	pthread_mutex_t mutex_life;
+	pthread_mutex_t mutex_print;
 	int				i;
 	int				each_ph_eat;
 	t_philosoph		*super_phil;
