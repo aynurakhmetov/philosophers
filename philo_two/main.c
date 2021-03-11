@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:57:16 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 14:45:52 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/11 21:47:11 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ t_philosoph		*ft_philo_create(t_philo philo)
 	i = -1;
 	philosoph = (t_philosoph *)malloc(sizeof(t_philosoph)
 			* (philo.num_of_phil + 1));
+	sem_unlink("/semaphore");
+	sem_unlink("/sema_life");
+	sem_unlink("/sema_print");
+	sem_unlink("/sema_waiter");
 	sem = sem_open("/semaphore", O_CREAT, 0666, philo.num_of_phil);
 	printf("1.2\n");
 	while (++i < philo.num_of_phil)

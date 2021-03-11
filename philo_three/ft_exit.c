@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:28:29 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 15:03:20 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/11 21:25:06 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*ft_exit(void)
 	while (++i < g_all.super_phil[0].philo.num_of_phil)
 	{
 		pthread_join(g_all.super_phil[i].die, NULL);
-		waitpid(g_all.super_phil[i].pid, &status, 0);
+		waitpid(g_all.super_phil[i].pid, &status, 0); 
 		kill(g_all.super_phil[i].pid, SIGTERM);
 	}
 	if (g_all.super_phil)
