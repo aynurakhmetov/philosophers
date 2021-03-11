@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:57:16 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 14:21:22 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/11 14:45:52 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void		ft_start_procces(t_philosoph *philosoph)
 	long			tm_start;
 
 	i = -1;
-	sem_wait(&g_all.sem_life);
+	sem_wait(g_all.sem_life);
 	g_all.super_phil = philosoph;
 	gettimeofday(&tv, NULL);
 	tm_start = tv.tv_sec * 1000 + tv.tv_usec / 1000;
@@ -41,22 +41,27 @@ t_philosoph		*ft_philo_create(t_philo philo)
 {
 	t_philosoph		*philosoph;
 	int				i;
-	sem_t			sem;
+	sem_t			*sem;
 
+
+	printf("1\n");
 	i = -1;
 	philosoph = (t_philosoph *)malloc(sizeof(t_philosoph)
 			* (philo.num_of_phil + 1));
-	sem = *sem_open("/semaphore", O_CREAT, 0666, philo.num_of_phil);
+	sem = sem_open("/semaphore", O_CREAT, 0666, philo.num_of_phil);
+	printf("1.2\n");
 	while (++i < philo.num_of_phil)
 	{
 		philosoph[i].philo = philo;
 		philosoph[i].num = i + 1;
-		philosoph[i].sem = &sem;
+		philosoph[i].sem = sem;
 	}
+	printf("2\n");
 	g_all.each_ph_eat = 0;
-	g_all.sem_life = *sem_open("/sema_life", O_CREAT, 0666, 1);
-	g_all.sem_print = *sem_open("/sema_print", O_CREAT, 0666, 1);
-	g_all.sem_waiter = *sem_open("/sema_waiter", O_CREAT, 0666, 1);
+	g_all.sem_life = sem_open("/sema_life", O_CREAT, 0666, 1);
+	g_all.sem_print = sem_open("/sema_print", O_CREAT, 0666, 1);
+	g_all.sem_waiter = sem_open("/sema_waiter", O_CREAT, 0666, 1);
+	printf("3\n");
 	return (philosoph);
 }
 

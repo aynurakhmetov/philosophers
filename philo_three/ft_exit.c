@@ -6,15 +6,16 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:28:29 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 14:45:28 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/11 15:03:20 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 void	*ft_exit(void)
 {
 	int i;
+	int status;
 
 	i = -1;
 	sem_wait(g_all.sem_life);
@@ -23,7 +24,8 @@ void	*ft_exit(void)
 	while (++i < g_all.super_phil[0].philo.num_of_phil)
 	{
 		pthread_join(g_all.super_phil[i].die, NULL);
-		pthread_join(g_all.super_phil[i].ph, NULL);
+		waitpid(g_all.super_phil[i].pid, &status, 0);
+		kill(g_all.super_phil[i].pid, SIGTERM);
 	}
 	if (g_all.super_phil)
 		free(g_all.super_phil);

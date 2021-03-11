@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_two.h                                        :+:      :+:    :+:   */
+/*   philo_three.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 18:48:58 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 14:30:01 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/11 15:05:07 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <semaphore.h>
+# include <sys/types.h>
+# include <signal.h>
 
 typedef struct	s_philo
 {
@@ -33,7 +35,7 @@ typedef struct	s_philo
 typedef struct	s_philosoph
 {
 	t_philo			philo;
-	pthread_t		ph;
+	pid_t			pid;
 	pthread_t		die;
 	int				num;
 	long			tm_start;

@@ -6,11 +6,11 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:13:00 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 14:44:47 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/11 14:47:45 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 static long	ft_philo_try_takes_forks(t_philosoph *one_phil)
 {

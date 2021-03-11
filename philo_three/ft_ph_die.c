@@ -6,11 +6,11 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:27:11 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 14:45:19 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/11 14:47:49 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 void	*ft_philo_die(void *philosoph)
 {
