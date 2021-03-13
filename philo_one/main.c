@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:57:16 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 13:32:17 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/13 20:42:35 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,20 @@ static void		ft_start_procces(t_philosoph *philosoph)
 	long			tm_start;
 
 	i = -1;
-	g_all.each_ph_eat = 0;
-	pthread_mutex_init(&g_all.mutex_life, NULL);
-	pthread_mutex_init(&g_all.mutex_print, NULL);
-	pthread_mutex_lock(&g_all.mutex_life);
-	g_all.super_phil = philosoph;
 	gettimeofday(&tv, NULL);
-	tm_start = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	pthread_create(&g_all.ms_die, NULL, ft_exit, NULL);
+	tm_start = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	while (++i < philosoph[0].philo.num_of_phil)
 	{
 		philosoph[i].tm_start = tm_start;
 		pthread_create(&philosoph[i].ph, NULL, ft_philo_life, &philosoph[i]);
+		usleep(100);
 	}
-	i = -1;
 	while (++i < philosoph[0].philo.num_of_phil)
 		pthread_join(philosoph[i].ph, NULL);
+	ft_check_life();
 	pthread_join(g_all.ms_die, NULL);
-	ft_exit();
+	ft_exit2();
 }
 
 t_philosoph		*ft_philo_create(t_philo philo)
@@ -45,6 +41,7 @@ t_philosoph		*ft_philo_create(t_philo philo)
 	int				i;
 
 	i = -1;
+	g_all.i = 1;
 	philosoph = (t_philosoph *)malloc(sizeof(t_philosoph)
 			* (philo.num_of_phil + 1));
 	while (++i < philo.num_of_phil)
@@ -57,6 +54,11 @@ t_philosoph		*ft_philo_create(t_philo philo)
 		else
 			philosoph[i].mutex_right = &philosoph[i + 1].mutex_left;
 	}
+	g_all.each_ph_eat = 0;
+	pthread_mutex_init(&g_all.mutex_life, NULL);
+	pthread_mutex_init(&g_all.mutex_print, NULL);
+	pthread_mutex_lock(&g_all.mutex_life);
+	g_all.super_phil = philosoph;
 	return (philosoph);
 }
 

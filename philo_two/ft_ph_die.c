@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:27:11 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 14:45:19 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/13 20:36:39 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	*ft_philo_die(void *philosoph)
 		tm = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 		if (tm - one_phil->eat_start > one_phil->philo.time_die)
 		{
-			g_all.i = 0;
 			sem_wait(g_all.sem_print);
-			printf("%ld %d died\n", tm - one_phil->tm_start, one_phil->num);
-			sem_post(g_all.sem_life);
-			break ;
+			if (g_all.i != 0)
+				printf("%ld %d died\n", tm - one_phil->tm_start, one_phil->num);
+			g_all.i = 0;
 			sem_post(g_all.sem_print);
+			break ;
 		}
 	}
 	return (0);

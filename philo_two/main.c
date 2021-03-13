@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:57:16 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 21:47:11 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/13 20:42:56 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void		ft_start_procces(t_philosoph *philosoph)
 	long			tm_start;
 
 	i = -1;
-	sem_wait(g_all.sem_life);
-	g_all.super_phil = philosoph;
+	g_all.i = 1;
 	gettimeofday(&tv, NULL);
 	tm_start = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	sem_wait(g_all.sem_life);
 	pthread_create(&g_all.ms_die, NULL, ft_exit, NULL);
 	while (++i < philosoph[0].philo.num_of_phil)
 	{
@@ -32,9 +32,8 @@ static void		ft_start_procces(t_philosoph *philosoph)
 	i = -1;
 	while (++i < philosoph[0].philo.num_of_phil)
 		pthread_join(philosoph[i].ph, NULL);
+	ft_check_life();
 	pthread_join(g_all.ms_die, NULL);
-	ft_close_sem();
-	ft_exit();
 }
 
 t_philosoph		*ft_philo_create(t_philo philo)
@@ -43,8 +42,6 @@ t_philosoph		*ft_philo_create(t_philo philo)
 	int				i;
 	sem_t			*sem;
 
-
-	printf("1\n");
 	i = -1;
 	philosoph = (t_philosoph *)malloc(sizeof(t_philosoph)
 			* (philo.num_of_phil + 1));
@@ -53,19 +50,18 @@ t_philosoph		*ft_philo_create(t_philo philo)
 	sem_unlink("/sema_print");
 	sem_unlink("/sema_waiter");
 	sem = sem_open("/semaphore", O_CREAT, 0666, philo.num_of_phil);
-	printf("1.2\n");
 	while (++i < philo.num_of_phil)
 	{
 		philosoph[i].philo = philo;
 		philosoph[i].num = i + 1;
 		philosoph[i].sem = sem;
 	}
-	printf("2\n");
 	g_all.each_ph_eat = 0;
 	g_all.sem_life = sem_open("/sema_life", O_CREAT, 0666, 1);
 	g_all.sem_print = sem_open("/sema_print", O_CREAT, 0666, 1);
-	g_all.sem_waiter = sem_open("/sema_waiter", O_CREAT, 0666, 1);
-	printf("3\n");
+	g_all.sem_waiter = sem_open("/sema_waiter", O_CREAT, 0666,
+		philo.num_of_phil / 2);
+	g_all.super_phil = philosoph;
 	return (philosoph);
 }
 

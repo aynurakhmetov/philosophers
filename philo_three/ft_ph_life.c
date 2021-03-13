@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:05:41 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 14:47:42 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/12 19:12:35 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	ft_philo_sleep_think(t_philosoph *one_phil)
 	long			tm_th;
 
 	gettimeofday(&tv, NULL);
-	ft_time(tv.tv_sec * 1000 + tv.tv_usec / 1000
-			+ one_phil->philo.time_sleep);
-	gettimeofday(&tv, NULL);
 	tm_sl = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	sem_wait(g_all.sem_print);
 	printf("%ld %d is sleeping\n",
 			tm_sl - one_phil->tm_start, one_phil->num);
 	sem_post(g_all.sem_print);
+	gettimeofday(&tv, NULL);
+	ft_time(tv.tv_sec * 1000 + tv.tv_usec / 1000
+			+ one_phil->philo.time_sleep);
 	gettimeofday(&tv, NULL);
 	tm_th = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	sem_wait(g_all.sem_print);
@@ -63,16 +63,7 @@ void	*ft_philo_life(void *philosoph)
 	{
 		res_eat += ft_philo_eat(one_phil);
 		if (res_eat == one_phil->philo.num_of_time)
-		{
-			g_all.each_ph_eat++;
-			if (g_all.each_ph_eat == one_phil->philo.num_of_phil)
-			{
-				g_all.i = 0;
-				sem_wait(g_all.sem_print);
-				sem_post(g_all.sem_life);
-				break ;
-			}
-		}
+			exit(0);
 		ft_philo_sleep_think(one_phil);
 	}
 	pthread_join(one_phil->die, NULL);

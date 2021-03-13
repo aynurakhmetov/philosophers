@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:57:16 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 21:49:06 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/12 19:45:58 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,38 +20,20 @@ static void		ft_start_procces(t_philosoph *philosoph)
 	int				status;
 
 	i = -1;
-	printf("1.1\n");
 	g_all.super_phil = philosoph;
 	gettimeofday(&tv, NULL);
 	tm_start = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	sem_wait(g_all.sem_life);
 	pthread_create(&g_all.ms_die, NULL, ft_exit, NULL);
-	while (++i < philosoph[0].philo.num_of_phil)
-	{
-		philosoph[i].tm_start = tm_start;
-		philosoph[i].pid = fork();
-		if (philosoph[i].pid == 0)
-		{
-			ft_philo_life(&philosoph[i]);
-			exit(0);
-		}
-		//pthread_create(&philosoph[i].ph, NULL, ft_philo_life, &philosoph[i]);
-	}
-	printf("1.2\n");
+	ft_fork(philosoph, tm_start);
 	i = -1;
 	while (++i < philosoph[0].philo.num_of_phil)
 	{
-		if (philosoph[i].pid > 0)
-		{
-			waitpid(philosoph[i].pid, &status, 0);
-			kill(philosoph[i].pid, SIGTERM);
-		}
-		//pthread_join(philosoph[i].ph, NULL);
+		waitpid(philosoph[i].pid, &status, 0);
+		kill(philosoph[i].pid, SIGTERM);
 	}
-	printf("1.3\n");
+	sem_post(g_all.sem_life);
 	pthread_join(g_all.ms_die, NULL);
-	ft_close_sem();
-	ft_exit();
 }
 
 t_philosoph		*ft_philo_create(t_philo philo)
@@ -76,9 +58,9 @@ t_philosoph		*ft_philo_create(t_philo philo)
 	}
 	g_all.each_ph_eat = 0;
 	g_all.sem_life = sem_open("/sema_life", O_CREAT, 0666, 1);
-	printf("0\n");
 	g_all.sem_print = sem_open("/sema_print", O_CREAT, 0666, 1);
-	g_all.sem_waiter = sem_open("/sema_waiter", O_CREAT, 0666, 1);
+	g_all.sem_waiter = sem_open("/sema_waiter", O_CREAT, 0666,
+		philo.num_of_phil / 2);
 	return (philosoph);
 }
 
@@ -108,9 +90,7 @@ static void		ft_philo_start(int argc, char *argv[])
 	else
 		philo.num_of_time = -1;
 	philosoph = ft_philo_create(philo);
-	printf("1\n");
 	ft_start_procces(philosoph);
-	printf("2\n");
 }
 
 static int		ft_check_arguments(int argc, char *argv[])

@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:27:11 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 14:47:49 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/12 16:17:48 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ void	*ft_philo_die(void *philosoph)
 			sem_wait(g_all.sem_print);
 			printf("%ld %d died\n", tm - one_phil->tm_start, one_phil->num);
 			sem_post(g_all.sem_life);
-			break ;
-			sem_post(g_all.sem_print);
+			exit(0);
 		}
 	}
 	return (0);

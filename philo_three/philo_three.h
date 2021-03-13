@@ -6,12 +6,12 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 18:48:58 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/11 15:05:07 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/12 16:33:55 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -61,5 +61,6 @@ void			*ft_philo_die(void *philosoph);
 void			ft_time(long time_end);
 void			*ft_exit();
 void			ft_close_sem();
+void			ft_fork(t_philosoph *philosoph, long tm_start);
 
 #endif
