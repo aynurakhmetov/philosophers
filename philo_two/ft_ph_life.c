@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:05:41 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/13 20:56:31 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/15 20:40:13 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	*ft_philo_life(void *philosoph)
 			if (g_all.each_ph_eat == one_phil->philo.num_of_phil)
 			{
 				g_all.i = 0;
+				sem_post(g_all.sem_life);
 				sem_wait(g_all.sem_print);
 				break ;
 			}

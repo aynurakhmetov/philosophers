@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 18:48:58 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/13 20:36:57 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/15 20:10:59 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,5 @@ void			ft_time(long time_end);
 void			*ft_exit();
 void			ft_close_sem();
 void			ft_exit2();
-void			ft_check_life();
 
 #endif

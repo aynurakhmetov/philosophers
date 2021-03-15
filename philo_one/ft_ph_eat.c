@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:13:00 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/13 19:38:24 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/15 20:03:36 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int			ft_philo_eat(t_philosoph *one_phil)
 		printf("%ld %d is eating\n", tm - one_phil->tm_start, one_phil->num);
 	pthread_mutex_unlock(&g_all.mutex_print);
 	gettimeofday(&tv, NULL);
-	ft_time(tv.tv_sec * 1000 + tv.tv_usec / 1000
+	if (g_all.each_ph_eat + 1 != one_phil->philo.num_of_phil)
+		ft_time(tv.tv_sec * 1000 + tv.tv_usec / 1000
 			+ one_phil->philo.time_eat);
 	if (one_phil->num != one_phil->philo.num_of_phil)
 	{

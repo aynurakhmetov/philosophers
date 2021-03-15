@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 18:48:58 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/13 21:13:38 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/15 20:10:51 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 typedef struct	s_philo
 {
 	int num_of_phil;
-	int time_die; 
+	int time_die;
 	int time_eat;
 	int time_sleep;
 	int num_of_time;
@@ -55,7 +55,5 @@ int				ft_philo_eat(t_philosoph *one_phil);
 void			*ft_philo_die(void *philosoph);
 void			ft_time(long time_end);
 void			*ft_exit();
-void			ft_exit2();
-void			ft_check_life();
 
 #endif

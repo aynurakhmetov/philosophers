@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:57:16 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/13 20:42:35 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/15 20:12:15 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,10 @@ static void		ft_start_procces(t_philosoph *philosoph)
 		pthread_create(&philosoph[i].ph, NULL, ft_philo_life, &philosoph[i]);
 		usleep(100);
 	}
+	i = -1;
 	while (++i < philosoph[0].philo.num_of_phil)
 		pthread_join(philosoph[i].ph, NULL);
-	ft_check_life();
 	pthread_join(g_all.ms_die, NULL);
-	ft_exit2();
 }
 
 t_philosoph		*ft_philo_create(t_philo philo)
