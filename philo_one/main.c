@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:57:16 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/15 20:12:15 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/16 19:39:19 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void		ft_start_procces(t_philosoph *philosoph)
 	long			tm_start;
 
 	i = -1;
-	gettimeofday(&tv, NULL);
 	pthread_create(&g_all.ms_die, NULL, ft_exit, NULL);
+	gettimeofday(&tv, NULL);
 	tm_start = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	while (++i < philosoph[0].philo.num_of_phil)
 	{

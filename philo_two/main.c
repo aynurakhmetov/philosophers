@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:57:16 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/15 20:36:00 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/16 20:52:44 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static void		ft_start_procces(t_philosoph *philosoph)
 
 	i = -1;
 	g_all.i = 1;
+	g_all.check_swaiter = philosoph[0].philo.num_of_phil / 2;
+	g_all.check_sprint = 1;
 	sem_wait(g_all.sem_life);
 	pthread_create(&g_all.ms_die, NULL, ft_exit, NULL);
 	gettimeofday(&tv, NULL);
@@ -28,6 +30,7 @@ static void		ft_start_procces(t_philosoph *philosoph)
 	{
 		philosoph[i].tm_start = tm_start;
 		pthread_create(&philosoph[i].ph, NULL, ft_philo_life, &philosoph[i]);
+		usleep(50);
 	}
 	i = -1;
 	while (++i < philosoph[0].philo.num_of_phil)

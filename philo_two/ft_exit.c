@@ -6,19 +6,59 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:28:29 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/15 20:35:18 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/16 21:35:43 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_two.h"
 
+void	ft_sem_print(int num)
+{
+	if (num == 0)
+	{
+		sem_wait(g_all.sem_print);
+		g_all.check_sprint--;
+	}
+	else if (num == 1)
+	{
+		sem_post(g_all.sem_print);
+		g_all.check_sprint++;
+	}
+}
+
+void	ft_sem_waiter(int num)
+{
+	if (num == 0)
+	{
+		sem_wait(g_all.sem_waiter);
+		g_all.check_swaiter--;
+	}
+	else if (num == 1)
+	{
+		sem_post(g_all.sem_waiter);
+		g_all.check_swaiter++;
+	}
+}
+
 void	ft_close_sem(void)
 {
+	int i;
+
+	i = 0;
 	sem_close(g_all.super_phil[0].sem);
 	sem_close(g_all.sem_life);
-	sem_post(g_all.sem_print);
 	sem_close(g_all.sem_print);
-	sem_wait(g_all.sem_waiter);
+	if (g_all.check_swaiter != g_all.super_phil[0].philo.num_of_phil / 2)
+	{
+		while (g_all.check_swaiter != g_all.super_phil[0].philo.num_of_phil / 2)
+		{
+			if ((g_all.super_phil[0].philo.num_of_phil
+			/ 2 - g_all.check_swaiter) > 0)
+				ft_sem_waiter(1);
+			else
+				ft_sem_waiter(0);
+		}
+	}
 	sem_close(g_all.sem_waiter);
 	sem_unlink("/semaphore");
 	sem_unlink("/sema_life");

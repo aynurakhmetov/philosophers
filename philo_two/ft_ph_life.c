@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 19:05:41 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/15 20:40:13 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/16 21:34:33 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,21 @@ void	ft_philo_sleep_think(t_philosoph *one_phil)
 
 	gettimeofday(&tv, NULL);
 	tm_sl = tv.tv_sec * 1000 + tv.tv_usec / 1000;
-	sem_wait(g_all.sem_print);
+	ft_sem_print(0);
 	if (g_all.i != 0)
 		printf("%ld %d is sleeping\n",
 			tm_sl - one_phil->tm_start, one_phil->num);
-	sem_post(g_all.sem_print);
+	ft_sem_print(1);
 	gettimeofday(&tv, NULL);
 	ft_time(tv.tv_sec * 1000 + tv.tv_usec / 1000
 			+ one_phil->philo.time_sleep);
 	gettimeofday(&tv, NULL);
 	tm_th = tv.tv_sec * 1000 + tv.tv_usec / 1000;
-	sem_wait(g_all.sem_print);
+	ft_sem_print(0);
 	if (g_all.i != 0)
 		printf("%ld %d is thinking\n",
 			tm_th - one_phil->tm_start, one_phil->num);
-	sem_post(g_all.sem_print);
+	ft_sem_print(1);
 }
 
 void	*ft_philo_life(void *philosoph)
@@ -70,13 +70,11 @@ void	*ft_philo_life(void *philosoph)
 			{
 				g_all.i = 0;
 				sem_post(g_all.sem_life);
-				sem_wait(g_all.sem_print);
 				break ;
 			}
 		}
 		ft_philo_sleep_think(one_phil);
 	}
 	pthread_join(one_phil->die, NULL);
-	sem_post(g_all.sem_print);
 	return (0);
 }

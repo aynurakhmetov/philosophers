@@ -6,7 +6,7 @@
 /*   By: gmarva <gmarva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 18:48:58 by gmarva            #+#    #+#             */
-/*   Updated: 2021/03/15 20:10:59 by gmarva           ###   ########.fr       */
+/*   Updated: 2021/03/16 20:08:22 by gmarva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ typedef struct	s_global
 	pthread_t		ms_die;
 	sem_t			*sem_life;
 	sem_t			*sem_print;
+	int				check_sprint;
 	sem_t			*sem_waiter;
+	int				check_swaiter;
 	int				i;
 	int				each_ph_eat;
 	t_philosoph		*super_phil;
@@ -59,6 +61,7 @@ void			*ft_philo_die(void *philosoph);
 void			ft_time(long time_end);
 void			*ft_exit();
 void			ft_close_sem();
-void			ft_exit2();
+void			ft_sem_print(int num);
+void			ft_sem_waiter(int num);
 
 #endif
